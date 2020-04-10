@@ -43,6 +43,7 @@ Canvas.prototype.canvasMousedown = function(event)
 {
     event.preventDefault();
     this.isMouseDown = true;
+    this.draw(event.target);
 }
 
 Canvas.prototype.canvasMouseup = function(event)
@@ -52,15 +53,18 @@ Canvas.prototype.canvasMouseup = function(event)
 
 Canvas.prototype.canvasMousemove = function(event)
 {
-    var target = event.target; 
-
     if(this.isMouseDown){
-        var targetX = target.getAttribute('x')
-        var targetY = target.getAttribute('y');
+        this.draw(event.target);
+    }
+}
 
-        if(targetX && targetY){
-            this.blocksState[targetX][targetY].backgroundColor = 'black';
-            this.canvasDom.update();
-        }
+Canvas.prototype.draw = function(element)
+{
+    var targetX = element.getAttribute('x')
+    var targetY = element.getAttribute('y');
+
+    if(targetX && targetY){
+        this.blocksState[targetX][targetY].backgroundColor = 'black';
+        this.canvasDom.update();
     }
 }
