@@ -1,0 +1,29 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+}
+
+#canvas{
+    width: 502px;
+    border: solid 1px;
+    overflow: hidden;
+}
+
+.block{
+    width: 10px;
+    height: 10px;
+    float: left;
+    border: solid 1px rgba(0,0,0,.1);
+}
+
+.block:hover{
+    border: solid 1px rgba(0,0,0,.7);
+}
