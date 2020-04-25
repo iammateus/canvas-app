@@ -38,6 +38,8 @@ Canvas.prototype.addEventListeners = function()
     window.addEventListener('mouseup', this.canvasMouseup.bind(this));
 
     this.canvasContainer.addEventListener('mousemove', this.canvasMousemove.bind(this));
+
+    this.canvasContainer.addEventListener('mouseleave', this.canvasMouseLeave.bind(this));
 }
 
 Canvas.prototype.canvasMousedown = function(event)
@@ -59,6 +61,27 @@ Canvas.prototype.canvasMousemove = function(event)
     if(this.isMouseDown){
         this.draw(event.target);
     }
+}
+
+Canvas.prototype.canvasMouseLeave = function (event) {
+    
+    if( this.isMouseDown ){
+
+        var mouseOffsetX = Math.round(event.offsetY / 10);
+        var mouseOffsety = Math.round(event.offsetX / 10);
+
+        mouseOffsetX = mouseOffsetX < 50 ? mouseOffsetX : 49;
+        mouseOffsety = mouseOffsety < 50 ? mouseOffsety : 49;
+
+        mouseOffsetX = mouseOffsetX > -1 ? mouseOffsetX : 0;
+        mouseOffsety = mouseOffsety > -1 ? mouseOffsety : 0;
+
+        var elementToDraw =  this.canvasDom.blockElements[x][y];
+
+        this.draw(elementToDraw);
+        
+    }
+
 }
 
 Canvas.prototype.draw = function(element)
