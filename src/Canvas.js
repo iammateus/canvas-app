@@ -110,13 +110,13 @@ Canvas.prototype.fillGap = function(previousBlock, nextBlock)
         biggestDifference = positiveYDifference;
     }
 
-    var blocksToFill = [];
+    var blocksToDraw = [];
 
     for (let index = 0; index <= biggestDifference; index++) {
 
-        var blockToFill = [];
+        var newBlockToDraw = [];
 
-        previousBlock = blocksToFill[blocksToFill.length - 1] ? blocksToFill[blocksToFill.length - 1] : previousBlock;
+        previousBlock = blocksToDraw[blocksToDraw.length - 1] ? blocksToDraw[blocksToDraw.length - 1] : previousBlock;
         previousBlockX = parseInt(previousBlock[0]);
         previousBlockY = parseInt(previousBlock[1]);
 
@@ -140,15 +140,15 @@ Canvas.prototype.fillGap = function(previousBlock, nextBlock)
             blockY = previousBlockY + 1;
         }
 
-        blockToFill = [blockX, blockY];
+        newBlockToDraw = [blockX, blockY];
 
-        blocksToFill.push(blockToFill);
+        blocksToDraw.push(newBlockToDraw);
     }
 
-    for (let index = 0; index < blocksToFill.length; index++) {
+    for (let index = 0; index < blocksToDraw.length; index++) {
 
-        var targetX = blocksToFill[index][0];
-        var targetY = blocksToFill[index][1];
+        var targetX = blocksToDraw[index][0];
+        var targetY = blocksToDraw[index][1];
 
         if(targetX > -1 && targetY > -1){
             this.drawBlock(targetX, targetY);
