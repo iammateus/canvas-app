@@ -6,7 +6,7 @@ var Canvas = function(params)
     this.canvasDom = new CanvasDom(this);
     this.addEventListeners();
     this.isMouseDown = false;
-    this.lastDraw = [];
+    this.lastDrawBlocks = [];
 };
 
 Canvas.prototype.buildBlocksState = function()
@@ -50,8 +50,8 @@ Canvas.prototype.canvasMousedown = function(event)
 Canvas.prototype.canvasMouseup = function(event)
 {
     this.isMouseDown = false;
-    console.log("this.lastDraw",this.lastDraw);
-    this.lastDraw = [];
+    console.log("this.lastDrawBlocks",this.lastDrawBlocks);
+    this.lastDrawBlocks = [];
 }
 
 Canvas.prototype.canvasMousemove = function(event)
@@ -67,7 +67,7 @@ Canvas.prototype.draw = function(element)
     var targetY = element.getAttribute('y');
     var nextBlock = [targetX,targetY];
 
-    var previousBlock = this.lastDraw[this.lastDraw.length -1];
+    var previousBlock = this.lastDrawBlocks[this.lastDrawBlocks.length -1];
 
     if(previousBlock && arraysIsEqual(previousBlock, nextBlock)){
         return;
@@ -160,5 +160,5 @@ Canvas.prototype.fillGap = function(previousBlock, nextBlock)
 Canvas.prototype.drawBlock = function (targetX, targetY) {
     this.blocksState[targetX][targetY].backgroundColor = 'black';
     this.canvasDom.update();
-    this.lastDraw.push([targetX,targetY]);
+    this.lastDrawBlocks.push([targetX,targetY]);
 }
