@@ -68,15 +68,15 @@ Canvas.prototype.canvasMouseLeave = function (event) {
     if( this.isMouseDown ){
 
         var mouseOffsetX = Math.round(event.offsetY / 10);
-        var mouseOffsety = Math.round(event.offsetX / 10);
+        var mouseOffsetY = Math.round(event.offsetX / 10);
 
         mouseOffsetX = mouseOffsetX < 50 ? mouseOffsetX : 49;
-        mouseOffsety = mouseOffsety < 50 ? mouseOffsety : 49;
+        mouseOffsetY = mouseOffsetY < 50 ? mouseOffsetY : 49;
 
         mouseOffsetX = mouseOffsetX > -1 ? mouseOffsetX : 0;
-        mouseOffsety = mouseOffsety > -1 ? mouseOffsety : 0;
+        mouseOffsetY = mouseOffsetY > -1 ? mouseOffsetY : 0;
 
-        var elementToDraw =  this.canvasDom.blockElements[x][y];
+        var elementToDraw =  this.canvasDom.blockElements[mouseOffsetX][mouseOffsetY];
 
         this.draw(elementToDraw);
         
