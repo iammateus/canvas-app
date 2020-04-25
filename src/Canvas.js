@@ -75,9 +75,7 @@ Canvas.prototype.draw = function(element)
 
     if(targetX && targetY){
         this.fillGap(previousBlock, nextBlock);
-        this.blocksState[targetX][targetY].backgroundColor = 'black';
-        this.canvasDom.update();
-        this.lastDraw.push([targetX,targetY]);
+        this.drawBlock(targetX, targetY);
     }
 }
 
@@ -153,12 +151,14 @@ Canvas.prototype.fillGap = function(previousBlock, nextBlock)
         var targetY = blocksToFill[index][1];
 
         if(targetX > -1 && targetY > -1){
-            this.blocksState[targetX][targetY].backgroundColor = 'black';
-            this.canvasDom.update();
-            this.lastDraw.push([targetX,targetY]);
+            this.drawBlock(targetX, targetY);
         }
-        
     }
 
 }
 
+Canvas.prototype.drawBlock = function (targetX, targetY) {
+    this.blocksState[targetX][targetY].backgroundColor = 'black';
+    this.canvasDom.update();
+    this.lastDraw.push([targetX,targetY]);
+}
