@@ -4,7 +4,7 @@ An online drawing app.
 
 ![Game demo](https://raw.githubusercontent.com/iammateus/Canvas/assets/demo.gif)  
 
-This version is just a JS script that enables one to make drawings on a board, I intend to create support for persistent drawings and multiplayer.
+This version is just a simple Javacript application that enables one to make drawings on a board, I intend to create support for persistent drawings and multiplayer.
 
 ## Installation
 
