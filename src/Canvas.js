@@ -1,11 +1,12 @@
 var Canvas = function (params) {
     this.params = params;
-    this.canvasContainer = document.getElementById(params.canvasId);
     this.blocksState = this.buildBlocksState();
     this.canvasDom = new CanvasDom(this);
+    this.canvasContainer = this.canvasDom.canvasContainer;
     this.addEventListeners();
     this.isMouseDown = false;
     this.lastDrawBlocks = [];
+    this.color = window.prompt("What color? ");
 };
 
 Canvas.prototype.buildBlocksState = function () {
@@ -70,9 +71,10 @@ Canvas.prototype.canvasMouseLeave = function (event) {
     if (this.isMouseDown) {
         var mouseOffsetX = Math.round(event.offsetY / 10);
         var mouseOffsetY = Math.round(event.offsetX / 10);
+        var maxOffset = this.params.size - 1;
 
-        mouseOffsetX = mouseOffsetX < 50 ? mouseOffsetX : 49;
-        mouseOffsetY = mouseOffsetY < 50 ? mouseOffsetY : 49;
+        mouseOffsetX = mouseOffsetX <= maxOffset ? mouseOffsetX : maxOffset;
+        mouseOffsetY = mouseOffsetY <= maxOffset ? mouseOffsetY : maxOffset;
 
         mouseOffsetX = mouseOffsetX > -1 ? mouseOffsetX : 0;
         mouseOffsetY = mouseOffsetY > -1 ? mouseOffsetY : 0;
@@ -171,7 +173,8 @@ Canvas.prototype.fillGap = function (previousBlock, nextBlock) {
 };
 
 Canvas.prototype.drawBlock = function (targetX, targetY) {
-    this.blocksState[targetX][targetY].backgroundColor = "black";
+    // State updated
+    this.blocksState[targetX][targetY].backgroundColor = this.color || "black";
     this.canvasDom.update();
     this.lastDrawBlocks.push([targetX, targetY]);
 };

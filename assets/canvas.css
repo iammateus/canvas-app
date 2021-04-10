@@ -1,29 +1,36 @@
-*{
+* {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
-body{
+body {
     display: flex;
     align-items: center;
     height: 100vh;
     justify-content: center;
 }
 
-#canvas{
-    width: 502px;
-    border: solid 1px;
-    overflow: hidden;
+#canvas-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    
 }
 
-.block{
+.canvas {
+    border: solid 1px;
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+.block {
     width: 10px;
     height: 10px;
     float: left;
-    border: solid 1px rgba(0,0,0,.1);
+    border: solid 1px rgba(0, 0, 0, 0.1);
 }
 
-.block:hover{
-    border: solid 1px rgba(0,0,0,.7);
+.block:hover {
+    border: solid 1px rgba(0, 0, 0, 0.7);
 }

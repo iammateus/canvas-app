@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas</title>
-    <link rel="stylesheet" href="./assets/canvas.css">
-</head>
-<body>
-    <div id="canvas"></div>
-    <script src="./src/functions.js"></script>
-    <script src="./src/Canvas.js"></script>
-    <script src="./src/CanvasDom.js"></script>
-    <script>
-        (function(){
-            window.canvas = new Canvas({
-                canvasId: 'canvas',
-                size: 50
-            });
-        })();
-    </script>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Canvas</title>
+        <link rel="stylesheet" href="./assets/canvas.css" />
+    </head>
+    <body>
+        <div id="canvas-container"></div>
+        <script src="./src/functions.js"></script>
+        <script src="./src/Canvas.js"></script>
+        <script src="./src/CanvasDom.js"></script>
+        <script>
+            (function () {
+                window.canvas = new Canvas({
+                    containerId: "canvas-container",
+                    size: 50,
+                });
+            })();
+        </script>
+    </body>
 </html>
