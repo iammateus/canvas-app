@@ -13,6 +13,9 @@
         <script src="./src/CanvasDom.js"></script>
         <script>
             (function () {
+                if (!getParameterByName("id")) {
+                    location = location + "?id=canvas-" + getRandomString();
+                }
                 window.canvas = new Canvas({
                     containerId: "canvas-container",
                     size: 50,

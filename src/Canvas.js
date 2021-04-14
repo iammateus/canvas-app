@@ -6,7 +6,11 @@ var Canvas = function (params) {
     this.addEventListeners();
     this.isMouseDown = false;
     this.lastDrawBlocks = [];
-    this.color = window.prompt("What color? ");
+    this.color = "black";
+    if (params.lastState) {
+        this.blocksState = params.lastState;
+        this.canvasDom.update();
+    }
 };
 
 Canvas.prototype.buildBlocksState = function () {
@@ -57,7 +61,6 @@ Canvas.prototype.canvasMousedown = function (event) {
 
 Canvas.prototype.canvasMouseup = function (event) {
     this.isMouseDown = false;
-    console.log("this.lastDrawBlocks", this.lastDrawBlocks);
     this.lastDrawBlocks = [];
 };
 
