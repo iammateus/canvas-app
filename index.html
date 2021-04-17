@@ -3,20 +3,23 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="./assets/img/tetris.png" type="image/pgn" />
         <title>Canvas</title>
-        <link rel="stylesheet" href="./assets/canvas.css" />
+        <link rel="stylesheet" href="./assets/css/canvas.css" />
     </head>
     <body>
         <div id="canvas-container"></div>
         <script src="./src/functions.js"></script>
+        <script src="./src/redirect.js"></script>
         <script src="./src/Canvas.js"></script>
         <script src="./src/CanvasDom.js"></script>
         <script>
             (function () {
-                if (!getParameterByName("id")) {
-                    location = location + "?id=canvas-" + getRandomString();
-                }
-                window.canvas = new Canvas({
+                checkUrlIdIfEmptyRedirect();
+
+                var canvasId = getParameterByName("id");
+                window.canvas = {};
+                window.canvas[canvasId] = new Canvas({
                     containerId: "canvas-container",
                     size: 50,
                 });
