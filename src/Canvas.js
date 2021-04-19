@@ -1,13 +1,19 @@
 var Canvas = function (params) {
     this.params = params;
-    this.blocksState = this.buildBlocksState();
+
+    this.blocksState = [];
+    this.buildBlocksState();
+
     this.canvasDom = new CanvasDom(this);
     this.canvasContainer = this.canvasDom.canvasContainer;
+
     this.addEventListeners();
+
     this.isMouseDown = false;
-    this.lastDrawBlocks = [];
     this.color = "black";
-    if (params.lastState) {
+    this.lastDrawBlocks = [];
+
+    if (params.lastBlocksState) {
         this.blocksState = params.lastState;
         this.canvasDom.update();
     }
@@ -15,23 +21,18 @@ var Canvas = function (params) {
 
 Canvas.prototype.buildBlocksState = function () {
     var canvasSize = this.params.size;
-    var state = [];
 
     for (let rowsCounter = 0; rowsCounter < canvasSize; rowsCounter++) {
-        var row = [];
-
+        var newRow = [];
         for (
             let columnCounter = 0;
             columnCounter < canvasSize;
             columnCounter++
         ) {
-            row.push({});
+            newRow.push({});
         }
-
-        state.push(row);
+        this.blocksState.push(newRow);
     }
-
-    return state;
 };
 
 Canvas.prototype.addEventListeners = function () {
@@ -176,7 +177,7 @@ Canvas.prototype.fillGap = function (previousBlock, nextBlock) {
 };
 
 Canvas.prototype.drawBlock = function (targetX, targetY) {
-    // State updated
+    // Blocks state updated
     this.blocksState[targetX][targetY].backgroundColor = this.color || "black";
     this.canvasDom.update();
     this.lastDrawBlocks.push([targetX, targetY]);
