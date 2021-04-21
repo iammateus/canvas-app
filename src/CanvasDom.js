@@ -14,9 +14,14 @@ CanvasDom.prototype.renderCanvas = function () {
 
 CanvasDom.prototype.renderContainer = function () {
     this.canvasContainer = document.createElement("div");
-    this.canvasContainer.setAttribute("id", getParameterByName("id"));
+    this.canvasContainer.setAttribute("id", this.canvas.params.canvasId);
     this.canvasContainer.classList.add("canvas");
-    this.canvasContainer.style.width = this.canvas.params.size * 10 + 2 + "px";
+
+    var bordersWidth = 2;
+    var blockWidth = 10;
+    var width = this.canvas.params.size * blockWidth + bordersWidth;
+    this.canvasContainer.style.width = width + "px";
+
     this.mainContainer.appendChild(this.canvasContainer);
 };
 

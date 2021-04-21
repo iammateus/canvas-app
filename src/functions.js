@@ -17,7 +17,7 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-function checkUrlIdIfEmptyRedirect() {
+function handleUrl() {
     if (!getParameterByName("id")) {
         location = location + "?id=canvas-" + getRandomString();
     }

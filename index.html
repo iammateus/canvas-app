@@ -14,13 +14,14 @@
         <script src="./src/CanvasDom.js"></script>
         <script>
             (function () {
-                checkUrlIdIfEmptyRedirect();
+                handleUrl();
 
                 var canvasId = getParameterByName("id");
                 window.canvas = {};
                 window.canvas[canvasId] = new Canvas({
                     containerId: "canvas-container",
                     size: 50,
+                    canvasId: canvasId,
                 });
             })();
         </script>
