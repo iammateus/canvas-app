@@ -10,19 +10,13 @@
     <body>
         <div id="canvas-container"></div>
         <script src="./src/functions.js"></script>
+        <script src="./src/App.js"></script>
         <script src="./src/Canvas.js"></script>
         <script src="./src/CanvasDom.js"></script>
         <script>
             (function () {
-                handleUrl();
-
-                var canvasId = getParameterByName("id");
-                window.canvas = {};
-                window.canvas[canvasId] = new Canvas({
-                    containerId: "canvas-container",
-                    size: 50,
-                    canvasId: canvasId,
-                });
+                var app = new App();
+                app.init();
             })();
         </script>
     </body>
