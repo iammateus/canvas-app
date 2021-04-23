@@ -12,7 +12,7 @@ var Canvas = function (params) {
 
     if (params.blockMatrizState) {
         this.blockMatrizState = params.blockMatrizState;
-        this.canvasDom.update();
+        this.update();
     }
 };
 
@@ -158,6 +158,10 @@ Canvas.prototype.drawBlock = function (targetX, targetY) {
     // Blocks state updated
     this.blockMatrizState[targetX][targetY].backgroundColor =
         this.color || "black";
-    this.canvasDom.update();
     this.lastBlocksDrawn.push([targetX, targetY]);
+    this.update();
+};
+
+Canvas.prototype.update = function (targetX, targetY) {
+    this.canvasDom.update();
 };
