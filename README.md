@@ -12,7 +12,7 @@ Just clone the repository, it runs on the browser!
 
 ## Online access
 
-You can play it using the [link](https://iammateus.github.io/Canvas/)
+You can play clicking [here](https://iammateus.github.io/Canvas/)
 
 ## License
 [MIT](https://github.com/iammateus/Canvas/blob/master/LICENSE)
