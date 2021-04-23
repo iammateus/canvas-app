@@ -1,25 +1,22 @@
 var Canvas = function (params) {
     this.params = params;
 
-    this.blocksState = [];
-    this.buildBlocksState();
+    this.blockMatrizState = [];
+    this.buildBlockMatrizState();
 
     this.canvasDom = new CanvasDom(this);
-    this.canvasContainer = this.canvasDom.canvasContainer;
-
-    this.addEventListeners();
 
     this.isMouseDown = false;
     this.color = "black";
     this.lastBlocksDrawn = [];
 
-    if (params.lastBlocksState) {
-        this.blocksState = params.lastState;
+    if (params.blockMatrizState) {
+        this.blockMatrizState = params.blockMatrizState;
         this.canvasDom.update();
     }
 };
 
-Canvas.prototype.buildBlocksState = function () {
+Canvas.prototype.buildBlockMatrizState = function () {
     var canvasSize = this.params.size;
 
     for (let rowsCounter = 0; rowsCounter < canvasSize; rowsCounter++) {
@@ -31,47 +28,28 @@ Canvas.prototype.buildBlocksState = function () {
         ) {
             newRow.push({});
         }
-        this.blocksState.push(newRow);
+        this.blockMatrizState.push(newRow);
     }
 };
 
-Canvas.prototype.addEventListeners = function () {
-    this.canvasContainer.addEventListener(
-        "mousedown",
-        this.canvasMousedown.bind(this)
-    );
-
-    window.addEventListener("mouseup", this.canvasMouseup.bind(this));
-
-    this.canvasContainer.addEventListener(
-        "mousemove",
-        this.canvasMousemove.bind(this)
-    );
-
-    this.canvasContainer.addEventListener(
-        "mouseleave",
-        this.canvasMouseLeave.bind(this)
-    );
-};
-
-Canvas.prototype.canvasMousedown = function (event) {
+Canvas.prototype.onMouseDown = function (event) {
     event.preventDefault();
     this.isMouseDown = true;
     this.draw(event.target);
 };
 
-Canvas.prototype.canvasMouseup = function (event) {
+Canvas.prototype.onMouseUp = function (event) {
     this.isMouseDown = false;
     this.lastBlocksDrawn = [];
 };
 
-Canvas.prototype.canvasMousemove = function (event) {
+Canvas.prototype.onMouseMove = function (event) {
     if (this.isMouseDown) {
         this.draw(event.target);
     }
 };
 
-Canvas.prototype.canvasMouseLeave = function (event) {
+Canvas.prototype.onMouseLeave = function (event) {
     if (this.isMouseDown) {
         var mouseOffsetX = Math.round(event.offsetY / 10);
         var mouseOffsetY = Math.round(event.offsetX / 10);
@@ -83,7 +61,7 @@ Canvas.prototype.canvasMouseLeave = function (event) {
         mouseOffsetX = mouseOffsetX > -1 ? mouseOffsetX : 0;
         mouseOffsetY = mouseOffsetY > -1 ? mouseOffsetY : 0;
 
-        var elementToDraw = this.canvasDom.blockElements[mouseOffsetX][
+        var elementToDraw = this.canvasDom.blockMatriz[mouseOffsetX][
             mouseOffsetY
         ];
 
@@ -178,7 +156,8 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
 
 Canvas.prototype.drawBlock = function (targetX, targetY) {
     // Blocks state updated
-    this.blocksState[targetX][targetY].backgroundColor = this.color || "black";
+    this.blockMatrizState[targetX][targetY].backgroundColor =
+        this.color || "black";
     this.canvasDom.update();
     this.lastBlocksDrawn.push([targetX, targetY]);
 };

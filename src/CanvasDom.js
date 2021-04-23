@@ -1,10 +1,11 @@
 var CanvasDom = function (canvas) {
     this.canvas = canvas;
-    this.mainContainer = document.getElementById(canvas.params.containerId);
-    this.canvasContainer = null;
-    this.blockElements = [];
+    this.parentElement = document.getElementById(canvas.params.containerId);
+    this.mainElement = null;
+    this.blockMatriz = [];
     this.renderCanvas();
     this.update();
+    this.addEventListeners();
 };
 
 CanvasDom.prototype.renderCanvas = function () {
@@ -13,20 +14,20 @@ CanvasDom.prototype.renderCanvas = function () {
 };
 
 CanvasDom.prototype.renderContainer = function () {
-    this.canvasContainer = document.createElement("div");
-    this.canvasContainer.setAttribute("id", this.canvas.params.canvasId);
-    this.canvasContainer.classList.add("canvas");
+    this.mainElement = document.createElement("div");
+    this.mainElement.setAttribute("id", this.canvas.params.canvasId);
+    this.mainElement.classList.add("canvas");
 
     var bordersWidth = 2;
     var blockWidth = 10;
     var width = this.canvas.params.size * blockWidth + bordersWidth;
-    this.canvasContainer.style.width = width + "px";
+    this.mainElement.style.width = width + "px";
 
-    this.mainContainer.appendChild(this.canvasContainer);
+    this.parentElement.appendChild(this.mainElement);
 };
 
 CanvasDom.prototype.renderBlocks = function () {
-    var blockElements = [];
+    var blockMatriz = [];
     var size = this.canvas.params.size;
 
     for (let rowsCounter = 0; rowsCounter < size; rowsCounter++) {
@@ -38,24 +39,43 @@ CanvasDom.prototype.renderBlocks = function () {
             block.setAttribute("x", rowsCounter);
             block.setAttribute("y", columnCounter);
 
-            this.canvasContainer.appendChild(block);
+            this.mainElement.appendChild(block);
             row.push(block);
         }
 
-        blockElements.push(row);
+        blockMatriz.push(row);
     }
 
-    this.blockElements = blockElements;
+    this.blockMatriz = blockMatriz;
+};
+
+CanvasDom.prototype.addEventListeners = function () {
+    this.mainElement.addEventListener(
+        "mousedown",
+        this.canvas.onMouseDown.bind(this.canvas)
+    );
+
+    window.addEventListener("mouseup", this.canvas.onMouseUp.bind(this.canvas));
+
+    this.mainElement.addEventListener(
+        "mousemove",
+        this.canvas.onMouseMove.bind(this.canvas)
+    );
+
+    this.mainElement.addEventListener(
+        "mouseleave",
+        this.canvas.onMouseLeave.bind(this.canvas)
+    );
 };
 
 CanvasDom.prototype.update = function () {
     var size = this.canvas.params.size;
-    var blocksState = this.canvas.blocksState;
+    var blockMatrizState = this.canvas.blockMatrizState;
 
     for (let rowsCounter = 0; rowsCounter < size; rowsCounter++) {
         for (let columnCounter = 0; columnCounter < size; columnCounter++) {
-            var blockElement = this.blockElements[rowsCounter][columnCounter];
-            var blockState = blocksState[rowsCounter][columnCounter];
+            var blockElement = this.blockMatriz[rowsCounter][columnCounter];
+            var blockState = blockMatrizState[rowsCounter][columnCounter];
 
             if (blockState.backgroundColor) {
                 blockElement.style.backgroundColor = blockState.backgroundColor;
