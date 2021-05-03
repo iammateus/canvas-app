@@ -9,6 +9,7 @@ var Canvas = function (params) {
     this.isMouseDown = false;
     this.color = "black";
     this.lastBlocksDrawn = [];
+    this.lastMousePositions = [];
 
     if (params.blockMatrizState) {
         this.blockMatrizState = params.blockMatrizState;
@@ -38,6 +39,49 @@ Canvas.prototype.onMouseDown = function (event) {
     this.draw(event.target);
 };
 
+Canvas.prototype.onMouseEnter = function (event) {
+    if (!this.isMouseDown) {
+        return;
+    }
+    var canvasSize = this.params.size;
+
+    var lastMousePosition = this.lastMousePositions[
+        this.lastMousePositions.length - 1
+    ];
+
+    var leastXDif = Infinity;
+    var leastYDif = Infinity;
+    var closestBlock = null;
+
+    for (let rowsCounter = 0; rowsCounter < canvasSize; rowsCounter++) {
+        for (
+            let columnCounter = 0;
+            columnCounter < canvasSize;
+            columnCounter++
+        ) {
+            const rect = this.canvasDom.blockMatriz[rowsCounter][
+                columnCounter
+            ].getBoundingClientRect();
+            var position = {
+                x: rect.left + window.scrollX,
+                y: rect.top + window.scrollY,
+            };
+            if (
+                Math.abs(position.x - lastMousePosition.x) < leastXDif ||
+                Math.abs(position.y - lastMousePosition.y) < leastYDif
+            ) {
+                leastXDif = Math.abs(position.x - lastMousePosition.x);
+                leastYDif = Math.abs(position.y - lastMousePosition.y);
+                closestBlock = this.canvasDom.blockMatriz[rowsCounter][
+                    columnCounter
+                ];
+            }
+        }
+    }
+
+    this.draw(closestBlock);
+};
+
 Canvas.prototype.onMouseUp = function (event) {
     this.isMouseDown = false;
     this.lastBlocksDrawn = [];
@@ -47,6 +91,10 @@ Canvas.prototype.onMouseMove = function (event) {
     if (this.isMouseDown) {
         this.draw(event.target);
     }
+    this.lastMousePositions.push({
+        x: event.x,
+        y: event.y,
+    });
 };
 
 Canvas.prototype.onMouseLeave = function (event) {

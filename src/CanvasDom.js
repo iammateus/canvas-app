@@ -57,9 +57,14 @@ CanvasDom.prototype.addEventListeners = function () {
 
     window.addEventListener("mouseup", this.canvas.onMouseUp.bind(this.canvas));
 
-    this.mainElement.addEventListener(
+    window.addEventListener(
         "mousemove",
         this.canvas.onMouseMove.bind(this.canvas)
+    );
+
+    this.mainElement.addEventListener(
+        "mouseenter",
+        this.canvas.onMouseEnter.bind(this.canvas)
     );
 
     this.mainElement.addEventListener(
