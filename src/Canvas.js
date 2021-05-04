@@ -115,37 +115,30 @@ Canvas.prototype.onMouseLeave = function (event) {
 };
 
 Canvas.prototype.draw = function (element) {
-    var targetX = element.getAttribute("x");
-    var targetY = element.getAttribute("y");
-    var nextBlock = { x: targetX, y: targetY };
+    var nextBlock = {
+        x: element.getAttribute("x"),
+        y: element.getAttribute("y"),
+    };
 
     var previousBlock = this.lastBlocksDrawn[this.lastBlocksDrawn.length - 1];
 
-    if (previousBlock && objectsIsEqual(previousBlock, nextBlock)) {
-        return;
-    }
-
-    if (targetX && targetY) {
+    if (nextBlock.x && nextBlock.y) {
         if (previousBlock) {
             this.fillLineGap(previousBlock, nextBlock);
         }
-        this.drawBlock(targetX, targetY);
+        this.drawBlock(nextBlock.x, nextBlock.y);
     }
 };
 
 Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
-    var previousBlockX = parseInt(previousBlock.x);
-    var previousBlockY = parseInt(previousBlock.y);
+    previousBlock.x = parseInt(previousBlock.x);
+    previousBlock.y = parseInt(previousBlock.y);
 
-    var nextBlockX = parseInt(nextBlock.x);
-    var nextBlockY = parseInt(nextBlock.y);
-
-    var positiveXDifference = Math.abs(previousBlockX - nextBlockX);
-    var positiveYDifference = Math.abs(previousBlockY - nextBlockY);
+    var positiveXDifference = Math.abs(previousBlock.x - nextBlock.x);
+    var positiveYDifference = Math.abs(previousBlock.y - nextBlock.y);
 
     var thereIsXDifference = positiveXDifference !== 0;
     var thereIsYDifference = positiveYDifference !== 0;
-
     if (!thereIsXDifference && !thereIsYDifference) {
         return;
     }
@@ -156,31 +149,29 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
     }
 
     for (let index = 0; index <= biggestDifference; index++) {
-        previousBlockX = parseInt(previousBlock.x);
-        previousBlockY = parseInt(previousBlock.y);
+        var blockToDraw = {};
+        blockToDraw.x = previousBlock.x;
 
-        var newBlockX = previousBlockX;
-
-        if (previousBlockX - nextBlockX > 0) {
-            newBlockX = previousBlockX - 1;
+        if (previousBlock.x - nextBlock.x > 0) {
+            blockToDraw.x = previousBlock.x - 1;
         }
 
-        if (previousBlockX - nextBlockX < 0) {
-            newBlockX = previousBlockX + 1;
+        if (previousBlock.x - nextBlock.x < 0) {
+            blockToDraw.x = previousBlock.x + 1;
         }
 
-        var newBlockY = previousBlockY;
+        blockToDraw.y = previousBlock.y;
 
-        if (previousBlockY - nextBlockY > 0) {
-            newBlockY = previousBlockY - 1;
+        if (previousBlock.y - nextBlock.y > 0) {
+            blockToDraw.y = previousBlock.y - 1;
         }
 
-        if (previousBlockY - nextBlockY < 0) {
-            newBlockY = previousBlockY + 1;
+        if (previousBlock.y - nextBlock.y < 0) {
+            blockToDraw.y = previousBlock.y + 1;
         }
 
-        this.drawBlock(newBlockX, newBlockY);
-        previousBlock = { x: newBlockX, y: newBlockY };
+        this.drawBlock(blockToDraw.x, blockToDraw.y);
+        previousBlock = { x: blockToDraw.x, y: blockToDraw.y };
     }
 };
 
