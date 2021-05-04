@@ -6,9 +6,9 @@ var Canvas = function (params) {
 
     this.canvasDom = new CanvasDom(this);
 
-    this.isMouseDown = false;
     this.color = "black";
-    this.lastBlocksDrawn = [];
+    this.isMouseDown = false;
+    this.lastBlocksDrawn = []; // Why keep last blocks drawn?
     this.lastMousePosition = null;
 
     if (params.blockMatrizState) {
@@ -43,10 +43,9 @@ Canvas.prototype.onMouseEnter = function (event) {
     if (!this.isMouseDown) {
         return;
     }
+
     var canvasSize = this.params.size;
-
     var lastMousePosition = this.lastMousePosition;
-
     var leastXDif = Infinity;
     var leastYDif = Infinity;
     var closestBlock = null;
@@ -76,7 +75,6 @@ Canvas.prototype.onMouseEnter = function (event) {
             }
         }
     }
-
     this.draw(closestBlock);
 };
 
@@ -142,33 +140,22 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
     var nextBlockX = parseInt(nextBlock.x);
     var nextBlockY = parseInt(nextBlock.y);
 
-    var xDifference = previousBlockX - nextBlockX;
-    var yDifference = previousBlockY - nextBlockY;
+    var positiveXDifference = Math.abs(previousBlockX - nextBlockX);
+    var positiveYDifference = Math.abs(previousBlockY - nextBlockY);
 
-    var thereIsXDifference = xDifference < 0 || xDifference > 0;
-    var thereIsYDifference = yDifference < 0 || yDifference > 0;
+    var thereIsXDifference = positiveXDifference !== 0;
+    var thereIsYDifference = positiveYDifference !== 0;
 
     if (!thereIsXDifference && !thereIsYDifference) {
         return;
     }
 
-    var positiveXDifference = Math.abs(xDifference);
-    var positiveYDifference = Math.abs(yDifference);
-
     var biggestDifference = positiveXDifference;
-
     if (positiveYDifference > positiveXDifference) {
         biggestDifference = positiveYDifference;
     }
 
-    var blocksToDraw = [];
-
     for (let index = 0; index <= biggestDifference; index++) {
-        var newBlockToDraw = [];
-
-        previousBlock = blocksToDraw[blocksToDraw.length - 1]
-            ? blocksToDraw[blocksToDraw.length - 1]
-            : previousBlock;
         previousBlockX = parseInt(previousBlock.x);
         previousBlockY = parseInt(previousBlock.y);
 
@@ -192,9 +179,8 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
             newBlockY = previousBlockY + 1;
         }
 
-        newBlockToDraw = { x: newBlockX, y: newBlockY };
         this.drawBlock(newBlockX, newBlockY);
-        blocksToDraw.push(newBlockToDraw);
+        previousBlock = { x: newBlockX, y: newBlockY };
     }
 };
 
