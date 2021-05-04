@@ -1,7 +1,7 @@
-function arraysIsEqual(array1, array2) {
-    array1 = JSON.stringify(array1);
-    array2 = JSON.stringify(array2);
-    return array1 === array2;
+function objectsIsEqual(obj1, obj2) {
+    obj1 = JSON.stringify(obj1);
+    obj2 = JSON.stringify(obj2);
+    return obj1 === obj2;
 }
 
 function getRandomString() {
@@ -16,4 +16,3 @@ function getParameterByName(name, url = window.location.href) {
     if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-

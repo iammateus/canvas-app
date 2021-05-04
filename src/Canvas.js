@@ -9,7 +9,7 @@ var Canvas = function (params) {
     this.isMouseDown = false;
     this.color = "black";
     this.lastBlocksDrawn = [];
-    this.lastMousePositions = [];
+    this.lastMousePosition = null;
 
     if (params.blockMatrizState) {
         this.blockMatrizState = params.blockMatrizState;
@@ -45,9 +45,7 @@ Canvas.prototype.onMouseEnter = function (event) {
     }
     var canvasSize = this.params.size;
 
-    var lastMousePosition = this.lastMousePositions[
-        this.lastMousePositions.length - 1
-    ];
+    var lastMousePosition = this.lastMousePosition;
 
     var leastXDif = Infinity;
     var leastYDif = Infinity;
@@ -91,10 +89,10 @@ Canvas.prototype.onMouseMove = function (event) {
     if (this.isMouseDown) {
         this.draw(event.target);
     }
-    this.lastMousePositions.push({
+    this.lastMousePosition = {
         x: event.x,
         y: event.y,
-    });
+    };
 };
 
 Canvas.prototype.onMouseLeave = function (event) {
@@ -121,30 +119,28 @@ Canvas.prototype.onMouseLeave = function (event) {
 Canvas.prototype.draw = function (element) {
     var targetX = element.getAttribute("x");
     var targetY = element.getAttribute("y");
-    var nextBlock = [targetX, targetY];
+    var nextBlock = { x: targetX, y: targetY };
 
     var previousBlock = this.lastBlocksDrawn[this.lastBlocksDrawn.length - 1];
 
-    if (previousBlock && arraysIsEqual(previousBlock, nextBlock)) {
+    if (previousBlock && objectsIsEqual(previousBlock, nextBlock)) {
         return;
     }
 
     if (targetX && targetY) {
-        this.fillLineGap(previousBlock, nextBlock);
+        if (previousBlock) {
+            this.fillLineGap(previousBlock, nextBlock);
+        }
         this.drawBlock(targetX, targetY);
     }
 };
 
 Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
-    if (!previousBlock) {
-        return;
-    }
+    var previousBlockX = parseInt(previousBlock.x);
+    var previousBlockY = parseInt(previousBlock.y);
 
-    var previousBlockX = parseInt(previousBlock[0]);
-    var previousBlockY = parseInt(previousBlock[1]);
-
-    var nextBlockX = parseInt(nextBlock[0]);
-    var nextBlockY = parseInt(nextBlock[1]);
+    var nextBlockX = parseInt(nextBlock.x);
+    var nextBlockY = parseInt(nextBlock.y);
 
     var xDifference = previousBlockX - nextBlockX;
     var yDifference = previousBlockY - nextBlockY;
@@ -156,8 +152,8 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
         return;
     }
 
-    var positiveXDifference = xDifference > 0 ? xDifference : xDifference * -1;
-    var positiveYDifference = yDifference > 0 ? yDifference : yDifference * -1;
+    var positiveXDifference = Math.abs(xDifference);
+    var positiveYDifference = Math.abs(yDifference);
 
     var biggestDifference = positiveXDifference;
 
@@ -173,8 +169,8 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
         previousBlock = blocksToDraw[blocksToDraw.length - 1]
             ? blocksToDraw[blocksToDraw.length - 1]
             : previousBlock;
-        previousBlockX = parseInt(previousBlock[0]);
-        previousBlockY = parseInt(previousBlock[1]);
+        previousBlockX = parseInt(previousBlock.x);
+        previousBlockY = parseInt(previousBlock.y);
 
         var newBlockX = previousBlockX;
 
@@ -196,7 +192,7 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
             newBlockY = previousBlockY + 1;
         }
 
-        newBlockToDraw = [newBlockX, newBlockY];
+        newBlockToDraw = { x: newBlockX, y: newBlockY };
         this.drawBlock(newBlockX, newBlockY);
         blocksToDraw.push(newBlockToDraw);
     }
@@ -206,7 +202,7 @@ Canvas.prototype.drawBlock = function (targetX, targetY) {
     // Blocks state updated
     this.blockMatrizState[targetX][targetY].backgroundColor =
         this.color || "black";
-    this.lastBlocksDrawn.push([targetX, targetY]);
+    this.lastBlocksDrawn.push({ x: targetX, y: targetY });
     this.update();
 };
 
