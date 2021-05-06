@@ -63,12 +63,18 @@ Canvas.prototype.onMouseEnter = function (event) {
                 x: rect.left + window.scrollX,
                 y: rect.top + window.scrollY,
             };
+            var positiveXDifference = Math.abs(
+                position.x - lastMousePosition.x
+            );
+            var positiveYDifference = Math.abs(
+                position.y - lastMousePosition.y
+            );
             if (
-                Math.abs(position.x - lastMousePosition.x) < leastXDif ||
-                Math.abs(position.y - lastMousePosition.y) < leastYDif
+                positiveXDifference < leastXDif ||
+                positiveYDifference < leastYDif
             ) {
-                leastXDif = Math.abs(position.x - lastMousePosition.x);
-                leastYDif = Math.abs(position.y - lastMousePosition.y);
+                leastXDif = positiveXDifference;
+                leastYDif = positiveYDifference;
                 closestBlock = this.canvasDom.blockMatriz[rowsCounter][
                     columnCounter
                 ];
