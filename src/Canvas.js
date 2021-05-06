@@ -104,12 +104,13 @@ Canvas.prototype.onMouseLeave = function (event) {
         var mouseOffsetX = Math.round(event.offsetY / 10);
         var mouseOffsetY = Math.round(event.offsetX / 10);
         var maxOffset = this.params.size - 1;
+        var minOffset = 0;
 
         mouseOffsetX = mouseOffsetX <= maxOffset ? mouseOffsetX : maxOffset;
         mouseOffsetY = mouseOffsetY <= maxOffset ? mouseOffsetY : maxOffset;
 
-        mouseOffsetX = mouseOffsetX > -1 ? mouseOffsetX : 0;
-        mouseOffsetY = mouseOffsetY > -1 ? mouseOffsetY : 0;
+        mouseOffsetX = mouseOffsetX >= minOffset ? mouseOffsetX : minOffset;
+        mouseOffsetY = mouseOffsetY >= minOffset ? mouseOffsetY : minOffset;
 
         var elementToDraw = this.canvasDom.blockMatriz[mouseOffsetX][
             mouseOffsetY
