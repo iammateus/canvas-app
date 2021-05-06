@@ -8,7 +8,7 @@ var Canvas = function (params) {
 
     this.color = "black";
     this.isMouseDown = false;
-    this.lastBlocksDrawn = []; // Why keep last blocks drawn?
+    this.lastDrawnBlocks = []; // Why keep last blocks drawn?
     this.lastMousePosition = null;
 
     if (params.blockMatrizState) {
@@ -19,7 +19,6 @@ var Canvas = function (params) {
 
 Canvas.prototype.buildBlockMatrizState = function () {
     var canvasSize = this.params.size;
-
     for (let rowsCounter = 0; rowsCounter < canvasSize; rowsCounter++) {
         var newRow = [];
         for (
@@ -86,7 +85,7 @@ Canvas.prototype.onMouseEnter = function (event) {
 
 Canvas.prototype.onMouseUp = function (event) {
     this.isMouseDown = false;
-    this.lastBlocksDrawn = [];
+    this.lastDrawnBlocks = [];
 };
 
 Canvas.prototype.onMouseMove = function (event) {
@@ -118,7 +117,7 @@ Canvas.prototype.onMouseLeave = function (event) {
 
         this.draw(elementToDraw);
     }
-    this.lastBlocksDrawn = [];
+    this.lastDrawnBlocks = [];
 };
 
 Canvas.prototype.draw = function (element) {
@@ -127,7 +126,7 @@ Canvas.prototype.draw = function (element) {
         y: element.getAttribute("y"),
     };
 
-    var previousBlock = this.lastBlocksDrawn[this.lastBlocksDrawn.length - 1];
+    var previousBlock = this.lastDrawnBlocks[this.lastDrawnBlocks.length - 1];
 
     if (nextBlock.x && nextBlock.y) {
         if (previousBlock) {
@@ -184,9 +183,8 @@ Canvas.prototype.fillLineGap = function (previousBlock, nextBlock) {
 
 Canvas.prototype.drawBlock = function (targetX, targetY) {
     // Blocks state updated
-    this.blockMatrizState[targetX][targetY].backgroundColor =
-        this.color || "black";
-    this.lastBlocksDrawn.push({ x: targetX, y: targetY });
+    this.blockMatrizState[targetX][targetY].backgroundColor = this.color;
+    this.lastDrawnBlocks.push({ x: targetX, y: targetY });
     this.update();
 };
 
