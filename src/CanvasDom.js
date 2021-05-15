@@ -84,6 +84,8 @@ CanvasDom.prototype.update = function () {
 
             if (blockState.backgroundColor) {
                 blockElement.style.backgroundColor = blockState.backgroundColor;
+            } else {
+                blockElement.style.backgroundColor = "initial";
             }
         }
     }
