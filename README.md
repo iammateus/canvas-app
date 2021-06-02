@@ -1,6 +1,6 @@
 # Canvas
 
-Online drawing application.
+An online drawing App.
 
 ![Game demo](https://raw.githubusercontent.com/iammateus/Canvas/assets/demo.gif)
 
