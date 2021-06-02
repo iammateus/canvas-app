@@ -15,6 +15,15 @@ var Canvas = function (params) {
         this.blockMatrizState = params.blockMatrizState;
         this.update();
     }
+
+    this.socket = io(`ws://localhost:3000`);
+    this.socket.on("connect", () => {
+        this.socket.emit("state", this.blockMatrizState);
+    });
+    this.socket.on("state", (data) => {
+        this.blockMatrizState = data;
+        this.update();
+    });
 };
 
 Canvas.prototype.buildBlockMatrizState = function () {
@@ -55,9 +64,10 @@ Canvas.prototype.onMouseEnter = function (event) {
             columnCounter < canvasSize;
             columnCounter++
         ) {
-            const rect = this.canvasDom.blockMatriz[rowsCounter][
-                columnCounter
-            ].getBoundingClientRect();
+            const rect =
+                this.canvasDom.blockMatriz[rowsCounter][
+                    columnCounter
+                ].getBoundingClientRect();
             var position = {
                 x: rect.left + window.scrollX,
                 y: rect.top + window.scrollY,
@@ -74,9 +84,8 @@ Canvas.prototype.onMouseEnter = function (event) {
             ) {
                 leastXDif = positiveXDifference;
                 leastYDif = positiveYDifference;
-                closestBlock = this.canvasDom.blockMatriz[rowsCounter][
-                    columnCounter
-                ];
+                closestBlock =
+                    this.canvasDom.blockMatriz[rowsCounter][columnCounter];
             }
         }
     }
@@ -111,9 +120,8 @@ Canvas.prototype.onMouseLeave = function (event) {
         mouseOffsetX = mouseOffsetX >= minOffset ? mouseOffsetX : minOffset;
         mouseOffsetY = mouseOffsetY >= minOffset ? mouseOffsetY : minOffset;
 
-        var elementToDraw = this.canvasDom.blockMatriz[mouseOffsetX][
-            mouseOffsetY
-        ];
+        var elementToDraw =
+            this.canvasDom.blockMatriz[mouseOffsetX][mouseOffsetY];
 
         this.draw(elementToDraw);
     }
@@ -185,6 +193,7 @@ Canvas.prototype.drawBlock = function (targetX, targetY) {
     // Blocks state updated
     this.blockMatrizState[targetX][targetY].backgroundColor = this.color;
     this.lastDrawnBlocks.push({ x: targetX, y: targetY });
+    this.socket.emit("state", this.blockMatrizState);
     this.update();
 };
 
