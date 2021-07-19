@@ -1,4 +1,4 @@
-# Canvas
+# Canvas App
 
 An online drawing App.
 
