@@ -6,10 +6,6 @@ The current version is a simple Javacript application that enables users to make
 
 ![Game demo](https://raw.githubusercontent.com/iammateus/Canvas/assets/demo.gif)
 
-## Installation
-
-Just clone the repository, it runs on the browser!
-
 ## Online access
 
 You can access the app [here](https://iammateus.github.io/Canvas/).
