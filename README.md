@@ -8,7 +8,7 @@ The current version is a simple Javacript application that enables users to make
 
 ## Online access
 
-You can access the app [here](https://iammateus.github.io/Canvas/).
+You can access the app [here](https://iammateus.github.io/canvas-app/).
 
 ## License
 
