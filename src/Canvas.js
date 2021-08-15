@@ -18,7 +18,7 @@ var Canvas = function (params) {
 
     this.socket = io(`ws://localhost:3000`);
     this.socket.on("connect", () => {
-        this.socket.emit("state", this.blockMatrizState);
+        this.socket.emit("room", this.params.canvasId)
     });
     this.socket.on("state", (data) => {
         this.blockMatrizState = data;
