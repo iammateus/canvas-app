@@ -18,9 +18,10 @@ var Canvas = function (params) {
 
     this.socket = io(`ws://localhost:3000`);
     this.socket.on("connect", () => {
-        this.socket.emit("room", this.params.canvasId)
+        this.socket.emit("JoinRoom", this.params.canvasId)
     });
-    this.socket.on("state", (data) => {
+    this.socket.on("ChangeState", (data) => {
+        console.log("aaa")
         this.blockMatrizState = data;
         this.update();
     });
@@ -193,7 +194,7 @@ Canvas.prototype.drawBlock = function (targetX, targetY) {
     // Blocks state updated
     this.blockMatrizState[targetX][targetY].backgroundColor = this.color;
     this.lastDrawnBlocks.push({ x: targetX, y: targetY });
-    this.socket.emit("state", this.blockMatrizState);
+    this.socket.emit("ChangeState", this.blockMatrizState);
     this.update();
 };
 
