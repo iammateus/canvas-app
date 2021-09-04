@@ -21,7 +21,6 @@ var Canvas = function (params) {
         this.socket.emit("JoinRoom", this.params.canvasId)
     });
     this.socket.on("ChangeState", (data) => {
-        console.log("aaa")
         this.blockMatrizState = data;
         this.update();
     });
